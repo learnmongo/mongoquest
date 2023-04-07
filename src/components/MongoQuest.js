@@ -14,7 +14,7 @@ const MongoQuest = () => {
   const columns = isLargerThan800 && user ? 4 : 1;
 
   const userNav = (
-    <GridItem h={isLargerThan800 && "80dvh"} colSpan={1}>
+    <GridItem h={isLargerThan800 && "60dvh"} colSpan={1}>
       <UserNav />
     </GridItem>
   );

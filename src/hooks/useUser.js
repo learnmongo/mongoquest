@@ -38,8 +38,7 @@ export const useUser = () => {
   const saveNote = React.useCallback(
     async (id, note = "") => {
       setIsLoading(true);
-
-      // example of running two queries back to back for certian situations
+      // example of running two queries back to back
       let responses = [];
 
       responses.push(
