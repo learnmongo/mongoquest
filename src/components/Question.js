@@ -57,17 +57,18 @@ const QuestionDisplay = () => {
 
   return (
     <Card
-      height="600px"
+      height="65dvh"
+      minHeight="500px"
+      maxHeight="700px"
       overflow="hidden"
       variant="outline"
-      marginRight={5}
-      marginBottom={5}
+      mb={5}
     >
       <CardHeader>
         <Badge mb="5" colorScheme={getColor(level)}>
           LEVEL {level}
         </Badge>
-        <Flex height="125px">
+        <Flex height="10dvh">
           <Center>
             <Heading as="h3" size="lg" fontWeight={300}>
               {questionText}
@@ -78,15 +79,15 @@ const QuestionDisplay = () => {
       <CardBody>
         <Tabs size="md" height="250px">
           <TabList>
-            <Tab>My Notes</Tab>
+            <Tab>Notes</Tab>
             <Tab>Response</Tab>
             <Tab>Document</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>
+            <TabPanel p={1}>
               <QuestionNote note={getSavedNote()} />
             </TabPanel>
-            <TabPanel>
+            <TabPanel height="180px" overflow="auto">
               <Text>{shortResponse}</Text>
             </TabPanel>
             <TabPanel>

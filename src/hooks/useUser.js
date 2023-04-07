@@ -16,7 +16,7 @@ export const useUser = () => {
           { user_id: user.id },
           { $addToSet: { "questions.answered": id } }
         );
-        refreshUser();
+        await refreshUser();
         setIsLoading(false);
         return response;
       }
@@ -27,7 +27,7 @@ export const useUser = () => {
           { user_id: user.id },
           { $pull: { "questions.answered": id } }
         );
-        refreshUser();
+        await refreshUser();
         setIsLoading(false);
         return response;
       }
@@ -66,7 +66,7 @@ export const useUser = () => {
         )
       );
 
-      refreshUser();
+      await refreshUser();
       setIsLoading(false);
 
       return responses;

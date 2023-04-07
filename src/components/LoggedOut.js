@@ -6,10 +6,7 @@ import { useRealmContext } from "../context/RealmContext";
 const LoggedOut = () => {
   const { loginUser } = useRealmContext();
   return (
-    <Stack height="600px" width="500px" spacing={6}>
-      <Text fontSize="4xl" fontWeight={400} colorScheme="green">
-        Welcome to MongoQuest!
-      </Text>
+    <Stack height="600px" width="95dvw" spacing={5}>
       <Text fontSize="xl" fontWeight={200}>
         Do you wish to begin your quest?
       </Text>

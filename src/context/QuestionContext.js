@@ -1,13 +1,11 @@
 import React from "react";
 import { useAggregate } from "../hooks/useAggregate";
-import { useRealmContext } from "./RealmContext";
+import { useUserContext } from "./UserContext";
 
 const QuestionContext = React.createContext({ question: null });
 
 export function QuestionContextProvider({ children }) {
-  const user = useRealmContext();
-
-  const answeredQuestions = user.customData?.questions?.answered ?? [];
+  const { answeredQuestions } = useUserContext();
 
   const pipeline = [
     // stage to hide answered questions
@@ -29,9 +27,14 @@ export function QuestionContextProvider({ children }) {
     pipeline,
   });
 
+  const isAnswered = React.useMemo(
+    () => answeredQuestions?.some((id) => id.$oid === question?._id.toString()),
+    [answeredQuestions, question]
+  );
+
   return (
     <QuestionContext.Provider
-      value={{ isLoadingQuestion, question, getNextQuestion }}
+      value={{ isLoadingQuestion, question, isAnswered, getNextQuestion }}
     >
       {children}
     </QuestionContext.Provider>
