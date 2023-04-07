@@ -1,49 +1,81 @@
 import React from "react";
-import { useRealm } from "./useRealm";
+import { useRealmContext } from "../context/RealmContext";
 
 export const useUser = () => {
-  const { user, refreshUser } = useRealm();
+  const { user, refreshUser } = useRealmContext();
   const mongo = user.app.currentUser.mongoClient("mongodb-atlas");
   const collection = mongo.db("mongoquest").collection("users");
 
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const setAnwsered = React.useCallback(async (id, status = "ADD") => {
-    if (status === "ADD") {
-      setIsLoading(true);
-      const response = await collection.updateOne(
-        { user_id: user.id },
-        { $addToSet: { "questions.anwsered": id } }
-      );
-      setIsLoading(false);
-      return response;
-    }
+  const setAnswered = React.useCallback(
+    async (id, status = "ADD") => {
+      if (status === "ADD") {
+        setIsLoading(true);
+        const response = await collection.updateOne(
+          { user_id: user.id },
+          { $addToSet: { "questions.answered": id } }
+        );
+        refreshUser();
+        setIsLoading(false);
+        return response;
+      }
 
-    if (status === "REMOVE") {
-      setIsLoading(true);
-      const response = await collection.updateOne(
-        { user_id: user.id },
-        { $pull: { "questions.anwsered": id } }
-      );
-      setIsLoading(false);
-      return response;
-    }
-  }, []);
+      if (status === "REMOVE") {
+        setIsLoading(true);
+        const response = await collection.updateOne(
+          { user_id: user.id },
+          { $pull: { "questions.answered": id } }
+        );
+        refreshUser();
+        setIsLoading(false);
+        return response;
+      }
+    },
+    [collection, refreshUser, user.id]
+  );
 
-  const saveNote = React.useCallback(async (id, note = "") => {
-    setIsLoading(true);
-    const response = await collection.updateOne(
-      { user_id: user.id },
-      { $set: { "questions.saved.$[elem].note": note } },
-      { arrayFilters: [{ "elem.id": id.toString() }] }
-    );
-    refreshUser();
-    setIsLoading(false);
-    return response;
-  }, []);
+  const saveNote = React.useCallback(
+    async (id, note = "") => {
+      setIsLoading(true);
+
+      // example of running two queries back to back for certian situations
+      let responses = [];
+
+      responses.push(
+        await collection.updateOne(
+          {
+            user_id: user.id.toString(),
+            "questions.saved.id": id,
+          },
+          {
+            $set: { "questions.saved.$.note": note },
+          }
+        )
+      );
+
+      responses.push(
+        await collection.updateOne(
+          {
+            user_id: user.id.toString(),
+          },
+          {
+            $addToSet: { "questions.saved": { id: id, note: note } },
+          },
+          { upsert: true }
+        )
+      );
+
+      refreshUser();
+      setIsLoading(false);
+
+      return responses;
+    },
+    [collection, refreshUser, user.id]
+  );
 
   return {
-    setAnwsered,
+    setAnswered,
     saveNote,
     isLoading,
   };

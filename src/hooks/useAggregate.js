@@ -1,12 +1,12 @@
 import React from "react";
-import { useRealm } from "./useRealm";
+import { useRealmContext } from "../context/RealmContext";
 
 export const useAggregate = ({
   databaseName = "mongoquest",
   collectionName,
   pipeline = [],
 }) => {
-  const { user } = useRealm();
+  const { user } = useRealmContext();
 
   const mongo = user.app.currentUser.mongoClient("mongodb-atlas");
   const collection = mongo.db(databaseName).collection(collectionName);
@@ -22,6 +22,7 @@ export const useAggregate = ({
     return aggregation;
   }, [collection, pipeline]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => getResults, []);
 
   return {
