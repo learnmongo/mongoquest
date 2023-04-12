@@ -11,7 +11,9 @@ const QuestionNav = () => {
     useQuestionContext();
   const { isLoading: isLoadingUserData } = useUser();
 
-  const [hasAnswered, setHasAnswered] = React.useState(isAnswered);
+  const [hasAnswered, setHasAnswered] = React.useState();
+
+  React.useEffect(() => setHasAnswered(isAnswered), [isAnswered]);
 
   if (!question) return null;
 
@@ -36,10 +38,7 @@ const QuestionNav = () => {
           loadingText="Loading Quest"
           spinnerPlacement="end"
           rightIcon={!isLoadingQuestion && <FaArrowCircleRight />}
-          onClick={() => {
-            setHasAnswered(false);
-            getNextQuestion();
-          }}
+          onClick={getNextQuestion}
         >
           Next Question
         </Button>

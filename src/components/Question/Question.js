@@ -1,7 +1,8 @@
 import React from "react";
+import { useUrl } from "../../hooks/useUrl";
+import { useQuestionContext } from "../../context/QuestionContext";
 import {
   Heading,
-  Text,
   Badge,
   Card,
   CardHeader,
@@ -9,31 +10,21 @@ import {
   Stat,
   StatNumber,
   StatHelpText,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
   Flex,
   Center,
 } from "@chakra-ui/react";
-import { useUrl } from "../hooks/useUrl";
-import QuestionNote from "./QuestionNote";
-import { useRealmContext } from "../context/RealmContext";
-import RawQuestion from "./RawQuestion";
-import { useQuestionContext } from "../context/QuestionContext";
 import QuestionLoader from "./QuestionLoader";
+import QuestionTabs from "./QuestionTabs";
 
-const getColor = (level) =>
+const getLevelColor = (level) =>
   level === 1 ? "green" : level === 2 ? "purple" : undefined;
 
 const QuestionDisplay = () => {
   const { question } = useQuestionContext();
 
+  // destructure question document
   const {
-    _id,
     question: questionText,
-    level,
     response: {
       short: shortResponse,
       reference: { chapter, section },
@@ -41,32 +32,22 @@ const QuestionDisplay = () => {
   } = question;
 
   const { updateQuestionUrl } = useUrl();
-  const { user } = useRealmContext();
-
-  const getSavedNote = () => {
-    const savedQuestions = user.customData?.questions?.saved;
-    const savedNote = savedQuestions?.filter(
-      (note) => note.id.$oid === _id.toString()
-    );
-    return savedNote[0]?.note;
-  };
 
   React.useEffect(() => {
-    updateQuestionUrl(_id.toString());
-  }, [_id, updateQuestionUrl]);
+    updateQuestionUrl(question._id.toString());
+  }, [question._id, updateQuestionUrl]);
 
   return (
     <Card
+      variant="outline"
       height="65dvh"
       minHeight="500px"
       maxHeight="700px"
-      overflow="hidden"
-      variant="outline"
       mb={5}
     >
       <CardHeader>
-        <Badge mb="5" colorScheme={getColor(level)}>
-          LEVEL {level}
+        <Badge mb="5" colorScheme={getLevelColor(question.level)}>
+          LEVEL {question.level}
         </Badge>
         <Flex height="10dvh">
           <Center>
@@ -77,24 +58,7 @@ const QuestionDisplay = () => {
         </Flex>
       </CardHeader>
       <CardBody>
-        <Tabs size="md" height="250px">
-          <TabList>
-            <Tab>Notes</Tab>
-            <Tab>Response</Tab>
-            <Tab>Document</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel p={1}>
-              <QuestionNote note={getSavedNote()} />
-            </TabPanel>
-            <TabPanel height="180px" overflow="auto">
-              <Text>{shortResponse}</Text>
-            </TabPanel>
-            <TabPanel>
-              <RawQuestion />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+        <QuestionTabs shortResponse={shortResponse} />
         <Stat height="60px">
           <StatNumber fontWeight={300}>Chapter {chapter}</StatNumber>
           <StatHelpText>{section}</StatHelpText>

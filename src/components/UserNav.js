@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useRealmContext } from "../context/RealmContext";
 import { useUserContext } from "../context/UserContext";
+import SavedQuestions from "./SavedQuestions";
 import UserDetail from "./UserDetail";
 
 const UserNav = () => {
@@ -49,7 +50,12 @@ const UserNav = () => {
         />
         {isLargerThan800 && <StatHelpText>Progress</StatHelpText>}
       </Stat>
-      {isLargerThan800 && <UserDetail />}
+      {isLargerThan800 && (
+        <>
+          <UserDetail />
+          <SavedQuestions />
+        </>
+      )}
     </Box>
   );
 };

@@ -17,6 +17,11 @@ export function UserContextProvider({ children }) {
     [user]
   );
 
+  const savedQuestions = React.useMemo(
+    () => user?.customData?.questions?.saved?.map((question) => question.id),
+    [user]
+  );
+
   const setQuestionStatus = React.useCallback(
     async (id, status) => {
       await setAnswered(id, status);
@@ -27,7 +32,12 @@ export function UserContextProvider({ children }) {
 
   return (
     <UserContext.Provider
-      value={{ answeredCount, answeredQuestions, setQuestionStatus }}
+      value={{
+        answeredCount,
+        answeredQuestions,
+        savedQuestions,
+        setQuestionStatus,
+      }}
     >
       {children}
     </UserContext.Provider>

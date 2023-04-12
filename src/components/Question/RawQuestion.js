@@ -1,4 +1,4 @@
-import { useQuestionContext } from "../context/QuestionContext";
+import { useQuestionContext } from "../../context/QuestionContext";
 
 const RawQuestion = () => {
   const { question } = useQuestionContext();
