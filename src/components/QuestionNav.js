@@ -18,32 +18,30 @@ const QuestionNav = () => {
   if (!question) return null;
 
   return (
-    <>
-      <Flex justifyContent="right" mr={6}>
-        <Button
-          isLoading={isLoadingUserData}
-          colorScheme="green"
-          isDisabled={hasAnswered}
-          mr={4}
-          onClick={() => {
-            setHasAnswered(true);
-            setQuestionStatus(question._id);
-          }}
-        >
-          {hasAnswered ? <FaCheckCircle /> : "Got It!"}
-        </Button>
-        <Button
-          isLoading={isLoadingQuestion}
-          colorScheme="blue"
-          loadingText="Loading Quest"
-          spinnerPlacement="end"
-          rightIcon={!isLoadingQuestion && <FaArrowCircleRight />}
-          onClick={getNextQuestion}
-        >
-          Next Question
-        </Button>
-      </Flex>
-    </>
+    <Flex justifyContent="right" mr={6}>
+      <Button
+        isLoading={isLoadingUserData}
+        colorScheme="green"
+        isDisabled={hasAnswered}
+        mr={4}
+        onClick={() => {
+          setHasAnswered(true);
+          setQuestionStatus(question._id);
+        }}
+      >
+        {hasAnswered ? <FaCheckCircle /> : "Got It!"}
+      </Button>
+      <Button
+        isLoading={isLoadingQuestion}
+        colorScheme="blue"
+        loadingText="Loading Quest"
+        spinnerPlacement="end"
+        rightIcon={!isLoadingQuestion && <FaArrowCircleRight />}
+        onClick={getNextQuestion}
+      >
+        Next Question
+      </Button>
+    </Flex>
   );
 };
 
