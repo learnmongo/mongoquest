@@ -23,7 +23,7 @@ export const useAggregate = ({
   }, [collection, pipeline]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(() => getResults, []);
+  React.useEffect(async () => await getResults(), []);
 
   return {
     results,

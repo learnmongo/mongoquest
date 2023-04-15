@@ -1,13 +1,11 @@
 import { Box, Icon, Link, Stack, Text, VStack } from "@chakra-ui/react";
 import React from "react";
+import { useRealmContext } from "../context/RealmContext";
 import { useUserContext } from "../context/UserContext";
 import { useMongoQuery } from "../hooks/useMongoQuery";
 import { TbNotes } from "react-icons/tb";
 
-// don't bother to do this for the chapter?
-// clean it up later and maybe in appendex?
-// add support to the id?
-const SavedQuestionsList = ({ savedQuestions }) => {
+const SavedQuestionsList = ({ savedQuestionIds }) => {
   const { find } = useMongoQuery({
     collectionName: "questions",
   });
@@ -17,13 +15,13 @@ const SavedQuestionsList = ({ savedQuestions }) => {
   React.useEffect(() => {
     (async () => {
       const questions = await find(
-        { _id: { $in: savedQuestions } },
+        { _id: { $in: savedQuestionIds } },
         { projection: { question: 1 } }
       );
       setSavedQuesionList(questions);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [savedQuestions]);
+  }, [savedQuestionIds]);
 
   const questionList = savedQuesionList?.map((q) => (
     <Box>
@@ -44,14 +42,16 @@ const SavedQuestionsList = ({ savedQuestions }) => {
 };
 
 const SavedQuestions = () => {
-  const { savedQuestions } = useUserContext();
+  const { user } = useRealmContext();
+  const { savedQuestionIds } = useUserContext();
 
-  if (!savedQuestions.length) return null;
+  console.log({ user, savedQuestionIds });
+  if (!user || !savedQuestionIds.length) return;
 
   return (
     <Stack mt={5}>
       <Text fontWeight={600}>Saved Questions</Text>
-      <SavedQuestionsList savedQuestions={savedQuestions} />
+      <SavedQuestionsList savedQuestionIds={savedQuestionIds} />
     </Stack>
   );
 };

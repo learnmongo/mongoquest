@@ -13,13 +13,18 @@ export function UserContextProvider({ children }) {
   );
 
   const answeredQuestions = React.useMemo(
-    () => user?.customData?.questions?.answered,
+    () => user?.customData?.questions?.answered ?? [],
     [user]
   );
 
   const savedQuestions = React.useMemo(
-    () => user?.customData?.questions?.saved?.map((question) => question.id),
+    () => user?.customData?.questions?.saved ?? [],
     [user]
+  );
+
+  const savedQuestionIds = React.useMemo(
+    () => savedQuestions.map((question) => question.id),
+    [savedQuestions]
   );
 
   const setQuestionStatus = React.useCallback(
@@ -36,6 +41,7 @@ export function UserContextProvider({ children }) {
         answeredCount,
         answeredQuestions,
         savedQuestions,
+        savedQuestionIds,
         setQuestionStatus,
       }}
     >

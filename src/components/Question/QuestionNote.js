@@ -1,11 +1,11 @@
 import React from "react";
 import { Textarea, Flex, Button } from "@chakra-ui/react";
-import { useRealmContext } from "../../context/RealmContext";
+import { useUserContext } from "../../context/UserContext";
 import { useQuestionContext } from "../../context/QuestionContext";
 import { useUser } from "../../hooks/useUser";
 
 const QuestionNote = () => {
-  const { user } = useRealmContext();
+  const { savedQuestions } = useUserContext();
   const { question } = useQuestionContext();
 
   const { isLoading: isUserDataLoading, saveNote } = useUser();
@@ -13,12 +13,12 @@ const QuestionNote = () => {
 
   const note = React.useMemo(() => {
     if (!question) return null;
-    const savedQuestions = user.customData?.questions?.saved;
+
     const savedNote = savedQuestions?.filter(
       (note) => note.id.$oid === question._id.toString()
     );
     return savedNote[0]?.note;
-  }, [question, user.customData?.questions?.saved]);
+  }, [question, savedQuestions]);
 
   React.useEffect(() => {
     setCurrentNote(note ?? undefined);

@@ -31,11 +31,13 @@ const QuestionDisplay = () => {
     },
   } = question;
 
+  /*
   const { updateQuestionUrl } = useUrl();
 
   React.useEffect(() => {
     updateQuestionUrl(question._id.toString());
   }, [question._id, updateQuestionUrl]);
+  */
 
   return (
     <Card
