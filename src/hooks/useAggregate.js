@@ -22,8 +22,10 @@ export const useAggregate = ({
     return aggregation;
   }, [collection, pipeline]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(async () => await getResults(), []);
+  React.useEffect(() => {
+    (async () => await getResults())();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     results,

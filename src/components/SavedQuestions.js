@@ -45,7 +45,6 @@ const SavedQuestions = () => {
   const { user } = useRealmContext();
   const { savedQuestionIds } = useUserContext();
 
-  console.log({ user, savedQuestionIds });
   if (!user || !savedQuestionIds.length) return;
 
   return (
