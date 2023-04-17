@@ -2,6 +2,12 @@
 
 You an run this application within the included Codespace, on your local, or on [https://mongoquest.com](https://mongoquest.com)
 
+### Starting Your MongoDB Quest
+
+When _MongoQuest_ first loads you will need to press the **Begin** button to start your anonymous journey, and then you should see a screen like the one below.
+
+You can then see mock interview type questions, take notes, see a suggested response as well as the raw MongoDB document for each question. You can mark the question as anwsered with the **Got It!** button and that question will be removed from the random selected of questions when you press the **Next Question** button.
+
 ![MongoQuest](screenshot.png)
 
 ## Getting Started with Create React App
