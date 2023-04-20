@@ -74,12 +74,12 @@ const QuestionDisplay = () => {
 };
 
 const Question = () => {
-  const { isLoadingQuestion, question } = useQuestionContext();
+  const { isLoadingQuestion, questionCount } = useQuestionContext();
 
-  const noQuestions = !isLoadingQuestion && !question;
+  const hasZeroQuestions = isLoadingQuestion === false && questionCount === 0;
+  const showLoader = isLoadingQuestion !== false || hasZeroQuestions;
 
-  if (isLoadingQuestion || noQuestions)
-    return <QuestionLoader noQuestions={noQuestions} />;
+  if (showLoader) return <QuestionLoader noQuestions={hasZeroQuestions} />;
 
   return <QuestionDisplay />;
 };

@@ -33,11 +33,14 @@ export function QuestionContextProvider({ children }) {
   const {
     isLoading: isLoadingQuestion,
     firstResult: question,
+    results,
     getResults: getNextQuestion,
   } = useAggregate({
     collectionName: "questions",
     pipeline,
   });
+
+  const questionCount = results.length;
 
   const isAnswered = React.useMemo(
     () => answeredQuestions?.some((id) => id.$oid === question?._id.toString()),
@@ -50,6 +53,7 @@ export function QuestionContextProvider({ children }) {
         isLoadingQuestion,
         question,
         isAnswered,
+        questionCount,
         getNextQuestion,
         currentLevel,
         setCurrentLevel,

@@ -20,14 +20,11 @@ const QuestionNav = () => {
   const [hasAnswered, setHasAnswered] = React.useState();
 
   React.useEffect(() => setHasAnswered(isAnswered), [isAnswered]);
+
   const handleLevelChange = React.useCallback(
-    (e) => {
-      setCurrentLevel(e?.target?.value);
-    },
+    (e) => setCurrentLevel(e?.target?.value),
     [setCurrentLevel]
   );
-
-  if (!question) return null;
 
   return (
     <Flex>
@@ -40,18 +37,20 @@ const QuestionNav = () => {
         </Select>
       </Flex>
       <Flex width="65%" justifyContent="right" mr={1}>
-        <Button
-          isLoading={isLoadingUserData}
-          colorScheme="green"
-          isDisabled={hasAnswered}
-          mr={4}
-          onClick={() => {
-            setHasAnswered(true);
-            setQuestionStatus(question._id);
-          }}
-        >
-          {hasAnswered ? <FaCheckCircle /> : "Got It!"}
-        </Button>
+        {question && (
+          <Button
+            isLoading={isLoadingUserData}
+            colorScheme="green"
+            isDisabled={hasAnswered}
+            mr={4}
+            onClick={() => {
+              setHasAnswered(true);
+              setQuestionStatus(question._id);
+            }}
+          >
+            {hasAnswered ? <FaCheckCircle /> : "Got It!"}
+          </Button>
+        )}
         <Button
           isLoading={isLoadingQuestion}
           colorScheme="blue"
