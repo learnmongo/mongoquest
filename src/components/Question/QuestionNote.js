@@ -1,5 +1,5 @@
 import React from "react";
-import { Textarea, Flex, Button } from "@chakra-ui/react";
+import { Textarea, Flex, Button, useMediaQuery } from "@chakra-ui/react";
 import { useUserContext } from "../../context/UserContext";
 import { useQuestionContext } from "../../context/QuestionContext";
 import { useUser } from "../../hooks/useUser";
@@ -7,6 +7,8 @@ import { useUser } from "../../hooks/useUser";
 const QuestionNote = () => {
   const { savedQuestions } = useUserContext();
   const { question } = useQuestionContext();
+
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
   const { isLoading: isUserDataLoading, saveNote } = useUser();
   const [currentNote, setCurrentNote] = React.useState();
@@ -36,7 +38,7 @@ const QuestionNote = () => {
         onChange={handleNoteChange}
         placeholder="Write any notes here ..."
         size="sm"
-        height={150}
+        height={isLargerThan800 ? 150 : 50}
         maxLength={500}
       />
       <Flex mt={2} justifyContent="right">

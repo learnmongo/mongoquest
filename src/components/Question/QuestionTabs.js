@@ -10,7 +10,7 @@ import QuestionNote from "./QuestionNote";
 import RawQuestion from "./RawQuestion";
 
 const QuestionTabs = ({ shortResponse }) => (
-  <Tabs size="md" height="250px">
+  <Tabs size="md">
     <TabList>
       <Tab>Notes</Tab>
       <Tab>Response</Tab>

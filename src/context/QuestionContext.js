@@ -7,14 +7,26 @@ const QuestionContext = React.createContext({ question: null });
 export function QuestionContextProvider({ children }) {
   const { answeredQuestions } = useUserContext();
 
+  const [currentLevel, setCurrentLevel] = React.useState(1);
+
+  const levelStage = React.useMemo(
+    () =>
+      Number.isNaN(Number(currentLevel))
+        ? { $match: { level: { $in: [1, 2, 3] } } }
+        : { $match: { level: Number(currentLevel) } },
+    [currentLevel]
+  );
+
   const pipeline = [
     // stage to hide answered questions
     {
       $match: { _id: { $nin: answeredQuestions } },
     },
     {
-      $sample: { size: 3 },
+      ...levelStage,
     },
+    // radomize results
+    { $sample: { size: 3 } },
     { $limit: 1 },
   ];
 
@@ -34,7 +46,14 @@ export function QuestionContextProvider({ children }) {
 
   return (
     <QuestionContext.Provider
-      value={{ isLoadingQuestion, question, isAnswered, getNextQuestion }}
+      value={{
+        isLoadingQuestion,
+        question,
+        isAnswered,
+        getNextQuestion,
+        currentLevel,
+        setCurrentLevel,
+      }}
     >
       {children}
     </QuestionContext.Provider>

@@ -6,9 +6,12 @@ const Header = (user = {}) => {
     <Box mb={isLargerThan800 && 2}>
       <Heading fontWeight={100}>MongoQuest</Heading>
 
-      <Text fontSize="sm" fontWeight={300}>
-        Test your skills in a quest to anwser interview questions about MongoDB!
-      </Text>
+      {isLargerThan800 && (
+        <Text fontSize="sm" fontWeight={300}>
+          Test your skills in a quest to anwser interview questions about
+          MongoDB!
+        </Text>
+      )}
     </Box>
   );
 };

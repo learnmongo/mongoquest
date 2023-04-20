@@ -12,6 +12,7 @@ import {
   StatHelpText,
   Flex,
   Center,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import QuestionLoader from "./QuestionLoader";
 import QuestionTabs from "./QuestionTabs";
@@ -21,6 +22,8 @@ const getLevelColor = (level) =>
 
 const QuestionDisplay = () => {
   const { question } = useQuestionContext();
+
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
   // destructure question document
   const {
@@ -43,7 +46,7 @@ const QuestionDisplay = () => {
     <Card
       variant="outline"
       height="65dvh"
-      minHeight="500px"
+      minHeight={isLargerThan800 ? "500px" : "450px"}
       maxHeight="700px"
       mb={5}
     >
@@ -51,7 +54,7 @@ const QuestionDisplay = () => {
         <Badge mb="5" colorScheme={getLevelColor(question.level)}>
           LEVEL {question.level}
         </Badge>
-        <Flex height="10dvh">
+        <Flex height="15dvh">
           <Center>
             <Heading as="h3" size="lg" fontWeight={300}>
               {questionText}
@@ -73,7 +76,8 @@ const QuestionDisplay = () => {
 const Question = () => {
   const { isLoadingQuestion, question } = useQuestionContext();
 
-  if (isLoadingQuestion || !question) return <QuestionLoader />;
+  if (isLoadingQuestion || !question)
+    return <QuestionLoader noQuestions={!question} />;
 
   return <QuestionDisplay />;
 };
