@@ -76,8 +76,10 @@ const QuestionDisplay = () => {
 const Question = () => {
   const { isLoadingQuestion, question } = useQuestionContext();
 
-  if (isLoadingQuestion || !question)
-    return <QuestionLoader noQuestions={!question} />;
+  const noQuestions = !isLoadingQuestion && !question;
+
+  if (isLoadingQuestion || noQuestions)
+    return <QuestionLoader noQuestions={noQuestions} />;
 
   return <QuestionDisplay />;
 };

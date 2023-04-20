@@ -12,7 +12,7 @@ export const useAggregate = ({
   const collection = mongo.db(databaseName).collection(collectionName);
 
   const [results, setResults] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(undefined);
 
   const getResults = React.useCallback(async () => {
     setIsLoading(true);
@@ -22,10 +22,13 @@ export const useAggregate = ({
     return aggregation;
   }, [collection, pipeline]);
 
-  React.useEffect(() => {
-    (async () => await getResults())();
+  React.useEffect(
+    () => async () => {
+      await getResults();
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    []
+  );
 
   return {
     results,
