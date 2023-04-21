@@ -1,6 +1,6 @@
 # MongoQuest
 
-You an run this application within the included Codespace, on your local, or on [https://mongoquest.com](https://mongoquest.com)
+You can run this application within the included Codespace, on your local, or on [https://mongoquest.com](https://mongoquest.com)
 
 ### Starting Your MongoDB Quest
 
