@@ -23,8 +23,13 @@ export const useAggregate = ({
   }, [collection, pipeline]);
 
   React.useEffect(
-    () => async () => {
-      await getResults();
+    () => {
+      const initialResult = async () => {
+        await getResults();
+        console.log("initialResult");
+      };
+      // @todo fix double load issue on local?
+      initialResult();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
